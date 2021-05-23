@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Update CRF™ Photo</h2>
+                <hr>
+                <p class="text-center">You can now upload new photo of CRF™ account.</p>
+                <form class="text-center" enctype="multipart/form-data" th:action="photo-update" th:method="post">
+                    <input accept="image/png, image/jpeg" class="margin-button" id="file" name="file" required
+                           type="file"/><br>
+                    <hr>
+                    <button class="btn btn-primary margin-button mr-2" onclick="return confirmDialog()" role="button"
+                            type="submit">Upload Photo
+                    </button>
+                    <a class="btn btn-primary margin-button" href="/my-account" role="button">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:include="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+<script type="text/javascript">
+    function confirmDialog() {
+        let result = confirm("Do you want to save photo?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

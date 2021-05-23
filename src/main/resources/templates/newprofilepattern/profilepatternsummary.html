@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head">
+    <script/>
+</head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-4 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-7 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Summary CRF™ Ranking Pattern</h2>
+                <hr>
+                <div class="container mt-2 p-0">
+                    <div>
+                        <ul>
+                            <li>Apply for Period: <b
+                                    th:text="${competencyRankingPatterns.periodPattern.name} + '-' + ${competencyRankingPatterns.periodPattern.year}"></b>
+                            </li>
+                            <li>CRF™ Ranking Pattern: <b
+                                    th:text="${competencyRankingPatterns.jobRoles.domains.domainName}"></b></li>
+                            <li>CRF™ Ranking Role: <b th:text="${competencyRankingPatterns.jobRoles.jobRoleName}"></b>
+                            </li>
+                            <li>Created: <b
+                                    th:text="${#dates.format(competencyRankingPatterns.created, 'dd/MM/yyyy')}"></b>
+                            </li>
+                            <input id="patternID" th:value="${competencyRankingPatterns.competencyPatternId}"
+                                   type="hidden">
+                        </ul>
+                    </div>
+                    <p class="text-center">
+                        <span th:each="components,stat : ${patternSummaryDTOList}">
+                            ---<a
+                                class="dot-non-hover"
+                                th:href="@{'/profile-pattern/new-profile-pattern/'+ ${competencyRankingPatterns.competencyPatternId}+'/'+${components.competencyComponents.componentId} +'/' + ${stat.index+1}}"
+                                th:title="${components.competencyComponents.componentName}"><span
+                                th:if="${pageIndex == (stat.index+1)}">🔴</span>
+                                                                                               <span th:if="${components.status != 'Completed' && pageIndex != (stat.index+1)}">⭕</span>
+                                                                                               <span th:if="${components.status == 'Completed' && pageIndex != (stat.index+1)}">🔘</span></a>
+                            <!--                        -&#45;&#45;<a th:href="@{'/profile-pattern/new-profile-pattern/'+ ${competencyRankingPatterns.competencyPatternId}+'/'+${components.componentId} +'/' + ${stat.index+1}}"-->
+                            <!--                              class="dot-non-hover" th:title="${components.componentName}"><span th:if="${pageIndex == (stat.index+1)}">🔴</span>-->
+                            <!--                                                                                               <span th:if="${pageIndex > (stat.index+1)}">🔵</span>-->
+                            <!--                                                                                               <span th:if="${pageIndex < (stat.index+1)}">🔘</span></a>-->
+                        </span>
+                        <span>---<a
+                                class="dot-non-hover"
+                                th:href="@{'/profile-pattern/new-profile-pattern/profile-summary/' + ${competencyRankingPatterns.competencyPatternId}}"
+                                title="Profile Ranking Summary">🔴</a> ---
+                        </span>
+
+                    </p>
+                    <div>
+                        <h4 class="text-center mt-2">Ranking Pattern Table</h4>
+                        <table border="0" class="smaller-font table-profile table-striped-custom mt-3 mb-3"
+                               id="summaryTable"
+                               style="width:100%;" th:object="${patternSummaryDTOList}">
+                            <thead>
+                            <tr>
+                                <th class="pl-3" style="width: 40%">Component Name</th>
+                                <th class="text-center p-3" style="width: 30%">Ranking Weight(%)</th>
+                                <th class="text-center" style="width: 30%">Require Point(%)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr id="component" th:each="patternSummaryDTO,i : ${patternSummaryDTOList}">
+                                <td class="pl-3 hoverHand" onclick="showPatternDetail(this)"
+                                    th:title="${patternSummaryDTO.status != 'Completed'}? 'Not complete'">
+                                    [[${patternSummaryDTO.competencyComponents.componentName}]]
+                                </td>
+                                <td class="text-center">[[${patternSummaryDTO.totalWeight}]]</td>
+                                <td class="text-center"
+                                    th:text="${#numbers.formatDecimal(patternSummaryDTO.basePoint,1,1)}"></td>
+                            </tr>
+                            <tr>
+                                <td class="pl-3"><b>Total</b></td>
+                                <td class="text-center"><b>[[${totalCComponentPoint}]]</b></td>
+                                <td class="text-center"><b>[[${totalRequirePoint}]]</b></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-2 text-center row">
+                        <div class="col-12">
+                            <h4 class="">Ranking Pattern Radar Chart</h4>
+                            <div id="chartjs-radar">
+                                <canvas id="canvas" style="width: 100%;"></canvas>
+                                <script>
+                                    patternRadarChart();
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <i>You are now finished creating ranking pattern and please check before approve this
+                                pattern.</i>
+                            <div class="mt-2" th:switch="${competencyRankingPatterns.activeStatus.toString()}">
+                                <div th:case="Activated">
+                                    <a class="btn btn-primary a-block mr-2"
+                                       th:href="@{'/profile-pattern/new-profile-pattern/disapprove/'+${competencyRankingPatterns.getCompetencyPatternId()}}">
+                                        DisApprove
+                                    </a>
+                                    <a class="btn btn-primary a-block" role="button" th:href="@{'/profile-pattern'}">Return</a>
+                                </div>
+                                <div th:case="Inactive">
+                                    <a class="btn btn-primary a-block mr-2"
+                                       th:href="@{'/profile-pattern/new-profile-pattern/approve/'+${competencyRankingPatterns.getCompetencyPatternId()}}">
+                                        Approve
+                                    </a>
+                                    <a class="btn btn-primary a-block" role="button" th:href="@{'/profile-pattern'}">Return</a>
+                                </div>
+                                <div th:case="InProcess">
+                                    <a class="btn btn-primary a-block mr-2" role="button"
+                                       th:href="@{'/profile-pattern/new-profile-pattern'+'/' + ${competencyRankingPatterns.getCompetencyPatternId()} +
+                                    '/' + ${componentIdNotCompleteAtFirst} + '/' + ${componentIdNotCompleteAtFirst}}">Continue
+                                        Create</a>
+                                    <a class="btn btn-primary a-block" role="button" th:href="@{'/profile-pattern'}">Return</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+</body>
+</html>

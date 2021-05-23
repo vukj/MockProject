@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="desktop" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Update CRF™ Account</h2>
+                <hr>
+                <p class="space-document">You can now update CRF™ account and use System™Services.</p>
+                <div class="">
+                    <form onsubmit="confirmDialog()" th:object="${employees}">
+                        <fieldset>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6 col-md-11 col-sm-10">
+                                    <div><b>Full name:</b></br>
+                                        <input class="width-252 p-1 mb-3 mt-2" name="fullName"
+                                               pattern="^[a-z A-z]{3,50}$"
+                                               required th:value="${employees.fullName}"
+                                               title="Last name should less than 50 char!" type="text"/></br>
+                                    </div>
+                                    <div><b>Permanent Address:</b></br>
+                                        <input class="width-252 p-1 mb-3 mt-2" id="address" name="address1"
+                                               th:value="${employees.address1}"
+                                               type="text"/>
+                                    </div>
+                                    <div><b>Resident Address:</b></br>
+                                        <input class="width-252 p-1 mb-3 mt-2" id="raddress" name="address2"
+                                               th:value="${employees.address2}" type="text"/>
+                                    </div>
+                                    <div><b>Mobile number:</b></br>
+                                        <input class="width-252 p-1 mb-3 mt-2" id="mobile" name="phone"
+                                               pattern="^0\d{9}$"
+                                               th:value="${employees.phone}"
+                                               title="Phone MUST be 10 digits and start with '0'" type="tel"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-11 col-sm-10" name="dateOfBirth">
+                                    <div><b>Date of birth:</b></br>
+                                        <input class="width-252 p-1 mb-3 mt-2" id="dateOfBirth" name="dateOfBirth"
+                                               th:value="${employees.dateOfBirth}" type="date"/>
+                                    </div>
+                                    <b>Gender:</b></br>
+                                    <th:block th:each="genderTypes : ${genderList}">
+                                        <input class=" mb-3 mt-2" th:field="${employees.genderTypes}"
+                                               th:value="${genderTypes}"
+                                               type="radio"/><label>[[${genderTypes}]]</label>
+                                    </th:block>
+                                    <br>
+                                    <b>Marital Status:</b></br>
+                                    <th:block th:each="maritalStatus : ${maritalList}">
+                                        <input class=" mb-3 mt-2" th:field="${employees.maritalStatus}"
+                                               th:value="${maritalStatus}"
+                                               type="radio"/><label>[[${maritalStatus}]]</label>
+                                    </th:block>
+                                    <br>
+                                    <div class="mb-1"><b>Captcha Validate:</b></div>
+                                    <div th:insert="fragment/recaptcha :: recaptcha"></div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-center mt-2">
+                                <button class="btn btn-primary mr-2" formaction="/my-account/updated" formmethod="post"
+                                        onclick="return validatedCaptcha()" role="button" type="submit">Update
+                                </button>
+                                <a class="btn btn-primary margin-button" href="/my-account" role="button">Cancel</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+<script type="text/javascript">
+    function confirmDialog() {
+        let result = confirm("Do you want to Update Account?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

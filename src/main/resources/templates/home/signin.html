@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="https://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/blankheader :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center">
+            <div class="background-content col-lg-4 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:insert="fragment/create-account-info :: createAccountInfo"></div>
+            <div class="background-content col-lg-6 col-md-12 col-sm-12 p-5 profile-right">
+                <div class="row justify-content-center">
+                    <div class="">
+                        <h2 class="text-center" style="color: #60a6e4">Login</h2>
+                        <hr>
+                        <form th:object="${user}">
+                            <div class="row justify-content-center">
+                                <div class="">
+                                    <input class="width-252 p-1" id="email" name="email"
+                                           pattern="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+                                           placeholder="Email Address..."
+                                           required
+                                           th:value="${email}"
+                                           title="Email not correct!" type="email"/></br>
+                                    <input class="width-252 mt-2 mb-2 p-1" id="password" name="password"
+                                           placeholder="Password..."
+                                           required type="password"/></br>
+                                    <div class="smaller-font"><input id="rememberpassword" name="remember-me"
+                                                                     type="checkbox"> Remember me
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary width-252 m-2" id="btn-login" role="button"
+                                        th:formaction="my-account" th:formmethod="post" type="submit">Log-in
+                                </button>
+                                </br>
+                                <a class="smaller-font" href="/forgot-password">Lost your password?</a>
+                            </div>
+                            <hr class="m-1">
+                            <div class="text-center smaller-font">
+                                <div class="pb-2">Login by third party</div>
+                                <a class="btn btn-primary width-95 a-block" th:href="@{/oauth2/authorization/facebook}">Facebook</a>
+                                <a class="btn btn-primary width-95 a-block" th:href="@{/oauth2/authorization/google}">Google</a>
+                            </div>
+                            <hr class="m-2">
+                            <div class="text-center pb-2 smaller-font">Don’t have CRF™ Account yet?</div>
+                            <div class="text-center"><a class="btn btn-primary" href="/signup" role="button">Create
+                                Account Now</a></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<span th:insert="fragment/footer :: footer"></span>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+</body>
+</html>

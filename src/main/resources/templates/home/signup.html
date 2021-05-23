@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="https://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/blankheader :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left">
+                <h2 class="text-center" style="color: #60a6e4">Already have CRF™ account... <a
+                        class="btn btn-primary a-block" href="/signin" role="button">Sign-In</a></h2>
+                <hr>
+                <div class="space-document mt-1">Please note that having an account on CRF™
+                    alone does not lead to automatic registrations for any CRF™ Credential, nor does it make you
+                    eligible for any of the CRF™ schemes or privilege offers. Individuals will have to formally register
+                    for a CRF™ Credential through CRF™ account.
+                </div>
+            </div>
+            <div class="background-content col-lg-7 col-md-12 col-sm-12 p-5 smaller-font profile-right">
+                <h2 class="text-center" style="color: #60a6e4">Create Account</h2>
+                <hr>
+                <div class="space-document mb-3">Thank you for choosing CRF™. You can now
+                    create account and use CRF™ services.
+                </div>
+                <form onsubmit=" return validatedCaptcha()" th:action="@{'/complete-signup'}" th:method="post"
+                      th:object="${user}">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="mb-1"><b>Email Address:</b></div>
+                            <input class="mt-2 mb-2 p-1 width-252" id="email" name="email"
+                                   pattern="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+                                   required title="Email is not correct type!"
+                                   type="email"/>
+                            <div class="mb-1"><b>Full name:</b></div>
+                            <input class="mt-2 mb-2 p-1 width-252" id="fullname" name="employees.fullName"
+                                   pattern="^[a-z A-z]{3,50}$"
+                                   required title="Last name should less than 50 char!" type="text"/>
+                            <div class="mb-1"><b>Mobile number:</b></div>
+                            <input class="mt-2 mb-2 p-1 width-252" id="phone" name="employees.phone" pattern="^0\d{9}$"
+                                   title="Phone MUST be 10 digits and start with '0'" type="tel"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="mb-1"><b>Gender:</b></div>
+                            <span class="p-1" th:each="gender : ${genderList}">
+                                <input id="Gender" name="employees.genderTypes" th:value="${gender}" type="radio"/> [[${gender}]]
+                            </span>
+                            <div class="mt-2 mb-1"><b>Marital Status:</b></div>
+                            <span class="p-1" th:each="marital : ${maritalList}">
+                                <input id="Marital" name="employees.maritalStatus" th:value="${marital}" type="radio"> [[${marital}]]
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-2 mb-2" th:insert="fragment/recaptcha :: recaptcha"></div>
+                    <hr>
+                    <div class="text-center">
+                        <button class="btn btn-primary" role="button" type="submit">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<span th:insert="fragment/footer :: footer"></span>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+</body>
+</html>

@@ -1,0 +1,330 @@
+@media print {
+    body {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    form, .no-print {
+        display: none;
+    }
+
+    table tr:last-child td:first-child {
+        border-bottom-left-radius: 10px;
+    }
+
+    table tr:last-child td:last-child {
+        border-bottom-right-radius: 10px;
+    }
+
+    table a {
+        text-decoration: underline;
+        color: cornflowerblue;
+    }
+
+    th {
+        border: 1px solid grey;
+    }
+
+    table {
+        border: 1px solid;
+        border-collapse: collapse;
+        margin-top: 30px;
+    }
+
+    td {
+        padding-left: 8px;
+    }
+
+    .table-noborder {
+        border: none;
+    }
+}
+
+@media (max-width: 575px) {
+    .custom-width {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 425px) {
+    body {
+        min-width: 370px;
+        width: 100%;
+    }
+
+    .profile-left {
+        margin-right: 0 !important;
+        padding: 15px 10px !important;
+    }
+
+    .profile-right {
+        margin-top: 15px;
+        padding: 15px 10px !important;
+    }
+
+    .min-width-page .table-padding td {
+        padding: 2px !important;
+    }
+
+    #avatar {
+        width: 60% !important;
+        border-radius: 15px;
+    }
+
+    .profile-infor {
+        align-items: center;
+    }
+
+    .profile-infor table {
+        width: 60%;
+    }
+
+    .col-center-custom {
+        float: none !important;
+    }
+
+    .custom-width {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 987px) {
+    .profile-left {
+        margin-right: 0 !important;
+        padding: 15px 10px !important;
+    }
+
+    .profile-right {
+        margin-top: 15px;
+        padding: 15px 10px !important;
+    }
+
+    .min-width-page .table-padding td {
+        padding: 2px !important;
+    }
+
+    #avatar {
+        width: 60% !important;
+        border-radius: 15px;
+    }
+
+    .profile-infor table {
+        width: 60%;
+    }
+
+    .custom-width {
+        /*width: 12.5% !important;*/
+    }
+}
+
+#avatar {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.min-width-page {
+    min-width: 565px;
+}
+
+.common-color-text {
+    color: #336086;
+}
+
+.link-hover {
+    color: white !important;
+}
+
+.link-hover:hover {
+    background-color: #73c4ff !important;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.a-block {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.mini-icon {
+    width: 25px;
+}
+
+.mini-icon2 {
+    width: 19px;
+    height: 19px;
+}
+
+.top-navbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.white-background {
+    background-color: white;
+}
+
+.blue-background {
+    background-color: #52b7ff;
+}
+
+.background-content {
+    padding: 20px;
+    background-color: rgba(66, 173, 255, 0.2);
+    border-radius: 20px;
+}
+
+.smaller-font {
+    font-size: 90%;
+}
+
+.width-252 {
+    width: 252px;
+}
+
+.width-95 {
+    width: 95px;
+}
+
+.button-small-height {
+    height: 30px;
+    font-size: 75%;
+    padding: 4px;
+}
+
+.button-small-height2 {
+    height: 30px;
+    font-size: 110%;
+    padding: 0px 5px;
+    margin-bottom: 6px;
+}
+
+.error-page {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.space-document {
+    text-indent: 20px;
+}
+
+.width-300 {
+    width: 300px;
+}
+
+input, select {
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+.input-120px {
+    width: 120px;
+}
+
+table {
+    width: 100%
+}
+
+th, td {
+    padding: 5px;
+}
+
+.table-profile th {
+    background-color: #fce898;
+}
+
+.table-profile td {
+    background-color: #fcfcae;
+}
+
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+table a {
+    text-decoration: underline;
+    color: cornflowerblue;
+}
+
+.hoverHand:hover {
+    cursor: pointer;
+}
+
+.margin-button {
+    margin: 8px 0px;
+}
+
+.table-striped-custom > tbody > tr:nth-child(2n+1) > td, .table-striped-custom > tbody > tr:nth-child(2n+1) > th {
+    background-color: #ffffd3;
+}
+
+.dot-non-hover {
+    padding-left: 4px;
+}
+
+.dot-non-hover:hover {
+    text-decoration: none;
+}
+
+canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#chartjs-tooltip {
+    opacity: 1;
+    position: absolute;
+    background: rgba(0, 0, 0, .7);
+    color: white;
+    border-radius: 3px;
+    -webkit-transition: all .1s ease;
+    transition: all .1s ease;
+    pointer-events: none;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+#chartjs-radar {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.chartjs-tooltip-key {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+}
+
+.search-profiles input {
+    height: 30px;
+    width: 100%;
+}
+
+.search-profiles select {
+    height: 30px;
+    width: 100%;
+    border: 1px solid black;
+}
+
+.search-profiles a {
+    height: 30px;
+    display: inline-block;
+    padding: 1px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.empty-tr td {
+    background-color: #ffffdc !important;
+}
+
+.custom-width {
+    width: 12.5%;
+}

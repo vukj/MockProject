@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background min-width-page">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <input id="id" th:value="${id}" type="hidden">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Ranking Profile</h2>
+                <hr>
+                <div class="container p-0">
+                    <div class="row" th:include="fragment/info-profile :: info-profile"></div>
+                    <p class="text-center" id="dot"></p>
+                    <div id="form" th:object="${profileDetailWrapperList}"></div>
+                    <div class="mt-3 text-center" id="btnDetails"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+<script>
+    $(document).ready(function () {
+        if ($("#id").val()) {
+            summary($("#id").val());
+        } else {
+            getListDetail(0);
+        }
+    })
+</script>
+</body>
+</html>

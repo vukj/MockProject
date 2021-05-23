@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">New Ranking Pattern</h2>
+                <hr>
+                <form th:object="${pattern}">
+                    <input id="checkDuplicate" name="checkDuplicate" th:value="${duplicated}" type="hidden">
+                    <div class="row justify-content-center;">
+                        <div class="col-lg-3 col-md-3 col-sm-12 mt-2">
+                            <span class="mb-1 mt-2"><b>Period:</b></span>
+                            <span>
+                                    <select class="p-1" id="periodCreatePatternPage" name="period"
+                                            onchange="selectPeriodPattern()">
+                                        <option value="">----</option>
+                                        <option th:each="period : ${periods}"
+                                                th:text="${period.name} + '-' + ${period.year}"
+                                                th:value="${period.periodId}"></option>
+                                    </select>
+                                </span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 mt-2">
+                            <span class="mb-1 mt-2"><b>Domain:</b></span>
+                            <span>
+                                    <select class="p-1" disabled id="domainNameCreatePatternPage" name="domainName"
+                                            onchange="selectDomain()">
+                                        <option value="">----</option>
+                                        <option th:each="item : ${domainList}" th:text="${item}"
+                                                th:value="${item}"></option>
+                                    </select>
+                                </span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+                            <span class="mb-1 mt-2"><b>Job roles:</b></span>
+                            <span>
+                                    <select class="p-1" disabled id="jobRolesNameCreatePatternPage" name="jobRolesName"
+                                            onchange="selectJobRoles()">
+                                        <option value="">----</option>
+                                        <option th:each="jobRolesName : ${jobRolesNameList}" th:text="${jobRolesName}"
+                                                th:value="${jobRolesName}"></option>
+                                    </select>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="mt-3"><b>Select components for pattern:</b></div>
+                    <table class="smaller-font table-profile table-striped-custom mt-2 mb-3">
+                        <thead>
+                        <tr onchange="selectAllComponent()">
+                            <th class="pl-4" id="selectAllComponent"><input disabled name="selectAllComponent"
+                                                                            type="checkbox"> All Components
+                            </th>
+                            <th class="text-center">Ranking Weight(%)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="checkbox-container">
+                        <tr th:each="component,stat : ${componentList}">
+                            <td class="pl-4">
+                                <input disabled name="componentCreatePatternPage"
+                                       th:id="'component' + ${component.componentId}"
+                                       th:value="${component.componentId}" type="checkbox">
+                                <span th:text="${component.componentName}"></span>
+                            </td>
+                            <td class="text-center">
+                                <span class="text-center" th:text="${component.componentWeight}"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <button class="btn btn-primary mr-2" disabled id="btn-pattern"
+                                role="button" th:formaction="createPattern"
+                                th:formmethod="post" type="submit">
+                            Create Pattern
+                        </button>
+                        <a th:href="@{/profile-pattern}">
+                            <button class="btn btn-primary" role="button" type="button">Cancel</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<script type="text/javascript">
+    function checkFunction() {
+        if ($("#checkDuplicate").val() == "true") {
+            /*<![CDATA[*/
+            window.alert("This pattern is already exist!");
+            /*]]>*/
+        }
+    }
+</script>
+<script type="text/javascript">
+    window.addEventListener('load', function () {
+        checkFunction();
+    }, false);
+</script>
+</body>
+</html>
+
+
+

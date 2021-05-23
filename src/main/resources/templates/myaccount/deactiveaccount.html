@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Deactivate CRF™ Account</h2>
+                <hr>
+                <p class="space-document">Thank you for choosing CRF™ system. You can now
+                    deactivate CRF™ account and stop using CRF™ Services.</p>
+                <form action="/my-account/deactivated" class="text-center" method="get"
+                      onsubmit="return confirmDialog()">
+                    <div style="text-align: -webkit-center;">
+                        <div th:insert="fragment/recaptcha :: recaptcha"></div>
+                    </div>
+                    <hr>
+                    <div class="mb-3"><b>Are you sure to deactivate CRF™ account?</b></div>
+                    <button class="btn btn-primary mr-2" onclick="return validatedCaptcha()" type="submit">Deactivate
+                        Account
+                    </button>
+                    <a class="btn btn-primary" href="/my-account" role="button">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+<script type="text/javascript">
+    function confirmDialog() {
+        let result = confirm("Do you want to deactivated account?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

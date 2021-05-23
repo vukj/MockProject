@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="profile">
+    <div class="row">
+        <div class="col-12 p-0">
+            <div class="text-center p-2">
+                <a href="/my-account"><img id="avatar" src="/my-account/img"></a>
+            </div>
+            <div class="text-center">Email: [[${user != null ? user.email : ''}]]</div>
+            <hr>
+            <div class="row justify-content-center">
+                <div>
+                    <table border="0">
+                        <tbody>
+                        <tr>
+                            <td>Role</td>
+                            <td id="accountRole" th:if="${user.userRoles.userRoleName == null}">:</td>
+                            <td th:if="${user.userRoles.userRoleName.equals('ROLE_LEADER')}">: <span id="accountRole">Leader</span>
+                            </td>
+                            <td th:if="${user.userRoles.userRoleName.equals('ROLE_MANAGER')}">: <span id="accountRole">Manager</span>
+                            </td>
+                            <td th:if="${user.userRoles.userRoleName.equals('ROLE_STAFF')}">: <span id="accountRole">Staff</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Full Name</td>
+                            <td>: [[${user.employees != null ? user.employees.fullName : ''}]]</td>
+                        </tr>
+                        <tr>
+                            <td>Domain:</td>
+                            <td>: [[${user.employees.domains != null ? user.employees.domains.domainName : ''}]]</td>
+                        </tr>
+                        <tr>
+                            <td>Account Status</td>
+                            <td>: [[${user != null ? user.activeStatus : ''}]]</td>
+                        </tr>
+                        <tr>
+                            <td>Created</td>
+                            <td>: [[${user.created} ? ${#dates.format(user.created, 'dd/MM/yyyy')}]]</td>
+                        </tr>
+                        <tr>
+                            <td>Last Login</td>
+                            <td>: [[${user.lastLogged} ? ${#dates.format(user.lastLogged,'dd/MM/yyyy')}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

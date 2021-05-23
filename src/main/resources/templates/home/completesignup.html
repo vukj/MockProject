@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/blankheader :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center">
+            <div class="background-content col-lg-4 col-sm-4 mr-3 pt-5 profile-left">
+                <div class="space-document">If you already have CRF™ account!<a href="/signin" role="button"> Sign-In
+                    Now</a></div>
+                <p class="space-document">Please note that having an account on my
+                    CRF™ alone does not lead to automatic registrations for any System™ Credential, nor does it make you
+                    eligible for any of the CRF™ schemes or privilege offers. Individuals will have to formally register
+                    for a CRF™ Credential through their CRF™ account.
+                </p>
+            </div>
+            <div class="background-content col-lg-6 col-sm-6 p-5 profile-right">
+                <h2>CRF™ Account</h2>
+                <hr>
+                <p class="space-document">Thanks for creating an account on CRF™.
+                    Check your inbox, to activate your account please click the button in your mailbox to verify your
+                    email address.
+                </p>
+                <div class="space-document">Start signing in CRF™ now.</div>
+                <a class="btn btn-primary a-block m-3" href="/signin" role="button">Sign-In</a>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+</body>

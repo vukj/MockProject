@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="info-profile">
+    <div class="col-md-6">
+        <ul class="">
+            <li>Job Title: <b>[[${user.employees.jobRoles.domains != null ? user.employees.jobRoles.domains.domainName :
+                ''}]]</b></li>
+            <li>Pattern Points: <b>[[${competencyRankingProfiles.competencyRankingPatterns != null ?
+                competencyRankingProfiles.competencyRankingPatterns.componentWeight : ''}]]</b></li>
+            <li id="point">Self-Assessment Points: <b>[[${competencyRankingProfiles != null ?
+                competencyRankingProfiles.selfRakingPoints : ''}]]</b></li>
+            <li>Reviewed Points: <b>[[${competencyRankingProfiles.competencyResults != null ?
+                competencyRankingProfiles.competencyResults.reviewRakingPoints : 'in Review'}]]</b></li>
+            <li>Status: <b
+                    th:style="${competencyRankingProfiles.statusTypes.toString() == 'InProcess'} ? 'color: red' : 'color: blue'">[[${competencyRankingProfiles.statusTypes.toString()}]]</b>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <ul class="">
+            <li>Profile Title: <b>[[${competencyRankingProfiles.competencyRankingPatterns.jobRoles != null ?
+                competencyRankingProfiles.competencyRankingPatterns.jobRoles.jobRoleName : ''}]]
+                [[${competencyRankingProfiles != null ? competencyRankingProfiles.profileTitle : ''}]]</b></li>
+            <li>Pattern: <b>[[${competencyRankingProfiles.competencyRankingPatterns.jobRoles.domains != null ?
+                competencyRankingProfiles.competencyRankingPatterns.jobRoles.domains.domainName : ''}]]</b></li>
+            <li>Pattern Period: <b>[[${competencyRankingProfiles.competencyRankingPatterns.periodPattern != null ?
+                competencyRankingProfiles.competencyRankingPatterns.periodPattern.name : ''}]]-
+                [[${competencyRankingProfiles.competencyRankingPatterns.periodPattern != null ?
+                competencyRankingProfiles.competencyRankingPatterns.periodPattern.year : ''}]]</b></li>
+            <li>Created: <b>[[${competencyRankingProfiles.created} ? ${#dates.format(competencyRankingProfiles.created,
+                'dd/MM/yyyy')}]]</b></li>
+            <li>Updated: <b>[[${competencyRankingProfiles.modified} ?
+                ${#dates.format(competencyRankingProfiles.modified,
+                'dd/MM/yyyy')}]]</b></li>
+            <!--Tan code-->
+            <input id="profileID" th:value="${competencyRankingProfiles.rankingProfileId}" type="hidden">
+        </ul>
+    </div>
+</div>

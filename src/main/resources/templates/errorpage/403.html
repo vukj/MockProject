@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center content-center">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center" style="color: #e4606d">Access Denied / Forbidden</h2>
+                <hr>
+                <img class="error-page text-center" src="/images/403.jpg"/>
+                <h2 class="text-center">We are sorry...</h2>
+                <p class="text-center">The page or resource you were trying to reach is absolutely forbidden for some
+                    reason! </p>
+                <ul>
+                    <li>Back to your account, click <a class="btn btn-primary margin-button a-block mb-2"
+                                                       href="/my-account" role="button">My Account</a></li>
+                    <li>Login with another account, click <a class="btn btn-primary margin-button a-block"
+                                                             href="/signin" role="button">Signin</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+</body>
+</html>

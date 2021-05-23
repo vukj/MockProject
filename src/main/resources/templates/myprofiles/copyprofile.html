@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background min-width-page">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Copy CRF™ Profile</h2>
+                <hr>
+                <ul>
+                    <li>Copy CRF™ profile: Period and Comments.</li>
+                    <li>Copy Professional Skills and Contributions.</li>
+                    <li>Copy Engineering and Non-Engineering Skills</li>
+                </ul>
+                <form action="/new-profile" id="submitForm" method="post" th:object="${rankingProfiles}">
+                    <div class="pl-4">
+                        <table border="0">
+                            <tr>
+                                <td>Profile title:</td>
+                                <td>Copy of <b>[[${rankingProfiles.profileTitle}]]</b></td>
+                            </tr>
+                            <tr>
+                                <td>For Period:</td>
+                                <td><b>[[${rankingProfiles.competencyRankingPatterns.periodPattern.name + '-' +
+                                    rankingProfiles.competencyRankingPatterns.periodPattern.year}]]</b></td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>New Profile title:</td>
+                                <td><input class="width-252" id="title" name="profileTitle" onkeydown="checkNull()"
+                                           required
+                                           th:type="text"></td>
+                            </tr>
+                            <tr>
+                                <td><input id="rankingProfileId" th:name="rankingProfileId"
+                                           th:value="${rankingProfiles.rankingProfileId}"
+                                           type="hidden"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                </form>
+                <div class="text-center">
+                    <button class="btn btn-primary mr-2" disabled id="createBtn" onclick="checkProfile()"
+                            role="button" style="font-size: 100%; padding-top: 4px" type="submit">Copy Profile
+                    </button>
+                    <a class="btn btn-primary a-block" href="/my-profiles" role="button"
+                       style="font-size: 100%; padding-top: 4px">Cancel</a>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+<script>
+    function checkNull() {
+        $(document).ready(function () {
+            $('#createBtn').prop('disabled', true);
+            if ($("#title").val() != "") {
+                $('#createBtn').prop('disabled', false);
+            }
+        })
+    }
+</script>
+</body>
+</html>

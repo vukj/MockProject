@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Copy CRF™ Profile Pattern</h2>
+                <hr>
+                <ul>
+                    <li>Copy CRF™ profile pattern: Structure of Profile Pattern.</li>
+                    <li>Copy Professional Skills and Contributions.</li>
+                    <li>Copy Engineering and Non-Engineering Skills</li>
+                </ul>
+                <form method="post">
+                    <input th:name="patternId" th:value="${competencyRankingPatterns.competencyPatternId}"
+                           type="hidden">
+                    <input th:name="jobRolesName" th:value="${competencyRankingPatterns.jobRoles.jobRoleName}"
+                           type="hidden">
+                    <table border="0" class="smaller-font table-profile table-striped-custom mb-3">
+                        <thead>
+                        <tr style="border-bottom: 1px solid;">
+                            <th class="text-center p-3" style="border-right: 1px solid"></th>
+                            <th class="text-center">FROM PATTERN</th>
+                            <th class="text-center">TO NEW PATTERN</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center" style="border-right: 1px solid; height: 40px;"><b>Ranking
+                                Pattern</b></td>
+                            <td class="text-center"
+                                th:text="${competencyRankingPatterns.jobRoles.domains.domainName}"></td>
+                            <td class="text-center"><input class="text-center" disabled="" name="newpattern"
+                                                           th:value="${competencyRankingPatterns.jobRoles.domains.domainName}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="border-right: 1px solid; height: 40px;"><b>Job Roles</b></td>
+                            <td class="text-center" th:text="${competencyRankingPatterns.jobRoles.jobRoleName}"></td>
+                            <td class="text-center"><input class="text-center" disabled="" name=""
+                                                           th:value="${competencyRankingPatterns.jobRoles.jobRoleName}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="border-right: 1px solid; height: 40px;"><b>Period</b></td>
+                            <td class="text-center"
+                                th:text="${competencyRankingPatterns.periodPattern.name} + '-' + ${competencyRankingPatterns.periodPattern.year}"></td>
+                            <td class="text-center">
+                                <select name="period" style="width: 153px; text-align-last: center;">
+                                    <option class="text-center" th:each="period : ${periods}"
+                                            th:text="${period.name} + '-' + ${period.year}"
+                                            th:value="${period.periodId}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-2 mb-2 space-document">
+                        <i>Note: You could copied the name of profile pattern from "Software Engineer." to "Software
+                            Engineer" and different the period.</i>
+                    </p>
+                    <div class="text-center">
+                        <button class="btn btn-primary mr-2" id="btn-pattern" onclick="return saveConfirmDialog()"
+                                role="button" th:formaction="'/profile-pattern/copyProfilePattern'"
+                                th:formmethod="post" type="submit">Copy Pattern
+                        </button>
+                        <!--                                <a class="btn btn-black" th:href="@{'/profile-pattern/copyProfilePattern/'+${competencyRankingPatterns.competencyPatternId}}" role="button" onclick="return saveConfirmDialog()" type="submit">Copy Pattern</a>-->
+                        <a class="btn btn-primary" role="button" th:href="@{'/profile-pattern'}">Cancel</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+<script type="text/javascript">
+    function saveConfirmDialog() {
+        let result = confirm("Do you want to copy this pattern?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

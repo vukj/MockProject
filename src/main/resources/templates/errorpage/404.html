@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center content-center">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center" style="color: #e4606d">Page 404 Not Found</h2>
+                <hr>
+                <img class="error-page text-center" src="/images/404.jpg"/>
+                <h2 class="text-center">Oops!...</h2>
+                <p class="text-center">We can't seem to find the page you're looking for.</p>
+                <div class="text-center"><a class="btn btn-primary a-block mb-2 margin-button" href="/my-account"
+                                            role="button">Back to your account</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+</body>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+</html>

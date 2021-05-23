@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="desktop mbr-site-loaded" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background min-width-page">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Member Profile Management</h2>
+                <hr>
+                <div class="col-12">
+                    <div class="smaller-font text-center mt-4 search-profiles row justify-content-center">
+                        <div class="a-block p-1 custom-width">
+                            <select id="jobRoleId" onchange="filterMemberProfile()">
+                                <option style="color: #aeaeae" value="">Role...</option>
+                                <option style="color: black" th:each="role : ${membersProfilesDTO.jobRolesList}"
+                                        th:value="${role.jobRoleId}">[[${role.jobRoleName}]]
+                                </option>
+                            </select>
+                        </div>
+                        <div class="a-block col-lg-2 col-md-2 col-sm-2 p-1"
+                             th:if="${user.userRoles.userRoleName.equals('ROLE_MANAGER')}">
+                            <select id="domainName" onchange="filterMemberProfile()">
+                                <option style="color: #aeaeae" value="">Domain...</option>
+                                <option style="color: black"
+                                        th:each="domain : ${membersProfilesDTO.domainsList}"
+                                        th:if="${!(domain.domainName.equals('New Account'))}"
+                                        th:value="${domain.domainName}">[[${domain.domainName}]]
+                                </option>
+                            </select>
+                        </div>
+                        <div class="a-block col-lg-2 col-md-2 col-sm-2 p-1">
+                            <select id="periodId" onchange="filterMemberProfile()">
+                                <option style="color: #aeaeae" value="">Period...</option>
+                                <option style="color: black" th:each="period : ${membersProfilesDTO.periodPatternList}"
+                                        th:value="${period.periodId}">[[${period.name + '-' + period.year}]]
+                                </option>
+                            </select>
+                        </div>
+                        <div class="a-block col-lg-2 col-md-2 col-sm-2 p-1" id="employeeNameContainer">
+                            <input id="memberName" onkeyup="filterMemberProfile()" placeholder="Member Name..."
+                                   type="text"
+                                   value=""/>
+                        </div>
+                        <div class="a-block col-lg-3 col-md-3 col-sm-3 p-1" id="dateContainer"
+                             th:switch="${user.userRoles.userRoleName}">
+                            <input id="day" onchange="filterMemberProfile()" placeholder="Submitted Day..."
+                                   th:case="'ROLE_LEADER'"
+                                   title="Must match dd/MM/yyyy" type="date"/>
+                            <input id="day" onchange="filterMemberProfile()" placeholder="Reviewed Day..."
+                                   th:case="'ROLE_MANAGER'"
+                                   title="Must match dd/MM/yyyy" type="date"/>
+                        </div>
+                        <div class="a-block p-1 custom-width">
+                            <select id="status" onchange="filterMemberProfile()">
+                                <option style="color: #aeaeae" value="">Status...</option>
+                                <option style="color: black" th:each="status : ${membersProfilesDTO.statusTypesList}"
+                                        th:value="${status}">[[${status}]]
+                                </option>
+                            </select>
+                        </div>
+                        <div class="a-block col-lg-1 col-md-1 col-sm-1 p-1">
+                            <button class="btn btn-primary ml-2 button-small-height2"
+                                    onclick="resetFilterMemberProfile()"
+                                    type="reset">Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-0" id="member-profile">
+                    <table border="0" class="smaller-font table-profile table-striped-custom" id="employee-profiles">
+                        <thead>
+                        <tr>
+                            <th class="pl-2" style="width: 28%">Job Title</th>
+                            <th class="text-center p-3" style="width: 10%">Period</th>
+                            <th class="text-center" style="width: 15%">Member/Staff</th>
+                            <th class="text-center" style="width: 20%"
+                                th:if="${user.userRoles.userRoleName.equals('ROLE_LEADER')}">Submitted Day
+                            </th>
+                            <th class="text-center" style="width: 20%"
+                                th:if="${user.userRoles.userRoleName.equals('ROLE_MANAGER')}">Reviewed Day
+                            </th>
+                            <th class="text-center" style="width: 15%">Status</th>
+                            <th class="text-center" style="width: 12%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${membersProfilesDTO.memberRankingProfileList.size() == 0}">
+                            <td class='text-center' colspan='6' style="height: 31px">Have No Member Profile</td>
+                        </tr>
+                        <th:block th:each="memberRankingProfile,index : ${membersProfilesDTO.memberRankingProfileList}">
+                            <tr>
+                                <td class="pl-2"
+                                    th:text="${memberRankingProfile.competencyRankingPatterns.jobRoles.jobRoleName} + ' ' + ${memberRankingProfile.employees.domains.domainName}"></td>
+                                <td class="text-center"
+                                    th:text="${memberRankingProfile.competencyRankingPatterns.periodPattern.name} + '-' + ${memberRankingProfile.competencyRankingPatterns.periodPattern.year}"></td>
+                                <td class="text-center">
+                                        <span class="hoverHand" style="color: #d39e00"
+                                              th:id="'employeeIndex' + ${index.index}"
+                                              th:onclick="'showMemberProfiles(' + ${index.index} + ')'"
+                                              th:text="${memberRankingProfile.employees.fullName}">
+                                        </span>
+                                </td>
+                                <td class="text-center" th:if="${user.userRoles.userRoleName.equals('ROLE_LEADER')}">
+                                    <span th:text="${#dates.format(memberRankingProfile.submittedDate, 'dd/MM/yyyy')}"
+                                          th:title="${memberRankingProfile.submittedDate}"></span>
+                                </td>
+                                <td class="text-center" th:if="${user.userRoles.userRoleName.equals('ROLE_MANAGER')}">
+                                            <span th:text="${#dates.format(memberRankingProfile.competencyResults.reviewedDate, 'dd/MM/yyyy')}"
+                                                  th:title="${memberRankingProfile.competencyResults.reviewedDate}"></span>
+                                </td>
+                                <td class="pl-2" th:switch="${memberRankingProfile.statusTypes.name()}">
+                                    <span style="color: #e4606d" th:case="'ReviewedFail'"
+                                          th:text="${memberRankingProfile.statusTypes.name()}"></span>
+                                    <span style="color: #e4606d" th:case="'Rejected'"
+                                          th:text="${memberRankingProfile.statusTypes.name()}"></span>
+                                    <span style="color: #419def"
+                                          th:if="${(user.userRoles.userRoleName.equals('ROLE_LEADER')) && (memberRankingProfile.statusTypes.name().equals('Reviewed'))}"
+                                          th:text="${memberRankingProfile.statusTypes.name()}"></span>
+                                    <span th:if="${(user.userRoles.userRoleName.equals('ROLE_MANAGER')) && (memberRankingProfile.statusTypes.name().equals('Reviewed'))}"
+                                          th:text="${memberRankingProfile.statusTypes.name()}"></span>
+                                    <span th:case="'Reviewed'"></span>
+                                    <span style="color: #419def" th:case="'Approved'"
+                                          th:text="${memberRankingProfile.statusTypes.name()}"></span>
+                                    <span th:case="*" th:text="${memberRankingProfile.statusTypes.name()}"></span>
+                                </td>
+                                <td class="text-center">
+                                        <span class="hoverHand"
+                                              th:if="${user.userRoles.userRoleName.equals('ROLE_LEADER')}"
+                                              th:onclick="'showReviewProfileDetail(' + ${memberRankingProfile.rankingProfileId} + ')'">
+                                            <img class="mini-icon2" src="/icons/reviewP.png" title="Review">
+                                        </span>
+                                    <span class="hoverHand"
+                                          th:onclick="'showSummaryProfileToReview(' + ${memberRankingProfile.rankingProfileId} + ')'">
+                                            <img class="mini-icon2" src="/icons/summary.png" title="Summary">
+                                        </span>
+                                    <span class="hoverHand"
+                                          th:onclick="'printProfile(' + ${memberRankingProfile.rankingProfileId} + ')'">
+                                            <img class="mini-icon2" src="/icons/print.png" title="Print">
+                                        </span>
+                                </td>
+                            </tr>
+                        </th:block>
+                        <th:block>
+                            <tr class="empty-tr" style="height: 31px"
+                                th:if="${(5 - membersProfilesDTO.memberRankingProfileList.size()) > 0}">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="empty-tr" style="height: 31px"
+                                th:if="${(4 - membersProfilesDTO.memberRankingProfileList.size()) > 0}">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="empty-tr" style="height: 31px"
+                                th:if="${(3 - membersProfilesDTO.memberRankingProfileList.size()) > 0}">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="empty-tr" style="height: 31px"
+                                th:if="${(2 - membersProfilesDTO.memberRankingProfileList.size()) > 0}">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                    <div class="mt-3">
+                        <a class="btn btn-primary a-block ml-3 button-small-height2 float-left"
+                           href="/member-profiles/return" role="button"
+                           style="font-size: 100%; padding-top: 3px">Return</a>
+                        <span class="float-right mt-2 mr-3" style="font-size: 150%">
+                            ...
+                            <span th:each="page : ${membersProfilesDTO.listPage}"
+                                  th:switch="${membersProfilesDTO.currentPage}">
+                                <span style="color: black" th:case="${page}" th:text=" ${page} "></span>
+                                <span class="hoverHand" style="color: gray; font-size: 90%" th:case="*"
+                                      th:onclick="'changePage(' + ${page} + ')'" th:text=" ${page} "></span>
+                            </span>
+                            ...
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:insert="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <h2 class="text-center pt-4" style="color: #60a6e4">Create New Profile</h2>
+                <hr>
+                <form action="/new-profile" id="submitForm" method="post" th:object="${profileDTO}">
+                    <div class="row justify-content-center">
+                        <table border="0" class="col-lg-8 col-md-8 col-sm-8">
+                            <tr>
+                                <td>For Period:</td>
+                                <td>
+                                    <select id="periodId" name="periodPattern" onchange="getListPattern()" required
+                                            style="width: 100%">
+                                        <option value="">---</option>
+                                        <option th:each="period: ${periodPatternList}"
+                                                th:text="${period.name + '-' + period.year}"
+                                                th:value="${period.periodId}">
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Profile template:</td>
+                                <td>
+                                    <select id="patternId" onchange="checkNull()" required
+                                            style="width: 100%" th:name="competencyPatternId">
+                                        <option value=""><span th:unless="${competencyRankingPatternsList.size() == 0}">---</span><span
+                                                th:if="${competencyRankingPatternsList.size() == 0}">No Pattern for this Period</span>
+                                        </option>
+                                        <option th:each="competencyRankingPatterns: ${competencyRankingPatternsList}"
+                                                th:value="${competencyRankingPatterns.competencyPatternId}">
+                                            <b>[[${competencyRankingPatterns.jobRoles.jobRoleName}]]
+                                                [[${competencyRankingPatterns.jobRoles.domains.domainName}]]</b>
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> New Profile title:</td>
+                                <td><input id="title" name="profileTitle" onkeydown="checkNull()" required
+                                           style="width: 100%" th:type="text"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                </form>
+                <div class="text-center">
+                    <button class="btn btn-primary mr-2" disabled id="createBtn" onclick="checkProfile()"
+                            role="button" style="font-size: 100%; padding-top: 4px" type="submit">Create Profile
+                    </button>
+                    <a class="btn btn-primary a-block" href="/my-profiles" role="button"
+                       style="font-size: 100%; padding-top: 4px">Cancel</a>
+                    <input name="page" th:value="0" type="hidden">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+<script>
+    function checkNull() {
+        $(document).ready(function () {
+            $('#createBtn').prop('disabled', true);
+            if ($("#periodId").val() != "" && $("#patternId").val() != "" && $("#title").val() != "") {
+                $('#createBtn').prop('disabled', false);
+            }
+        })
+    }
+</script>
+</body>
+</html>

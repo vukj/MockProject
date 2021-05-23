@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html class="desktop" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragment/head :: head"></head>
+<body class="blue-background">
+<div th:insert="fragment/header :: header"></div>
+<section class="white-background">
+    <div class="container pt-4 pb-4">
+        <div class="row justify-content-center" id="content-body">
+            <div class="background-content col-lg-3 col-md-12 col-sm-12 mr-3 pt-5 smaller-font profile-left"
+                 th:include="fragment/profile :: profile"></div>
+            <div class="background-content col-lg-8 col-md-12 col-sm-12 p-5 smaller-font profile-right"
+                 id="content-body-right">
+                <div th:switch="${accountRole}">
+                    <span th:case="ROLE_MANAGER">
+                        <h2 class="text-center pt-4" style="color: #60a6e4">Welcome Manager [[${user.employees.fullName}]]</h2>
+                        <hr>
+                        <div class="space-document mb-3">Let's start to work with your Manager Role.</div>
+                        <ul>
+                            <li>Manage your CRF™ Profile Patterns, click <a class="btn btn-primary margin-button"
+                                                                            href="/profile-pattern" role="button">CRF™ Profile Patterns</a></li>
+                            <li>Manage your Employee Domain, click
+                                <a class="btn btn-primary margin-button" href="/profile-pattern/updateDomainEmployee"
+                                   role="button">
+                                    CRF™ Domain
+                                </a>
+                            </li>
+                            <li>Approve Ranking for Members CRF™ profiles, click
+                                <a class="btn btn-primary margin-button" href="/member-profiles" role="button">Members CRF™ profiles</a>
+                            </li>
+                        </ul>
+                    </span>
+                    <span th:case="ROLE_LEADER">
+                        <h2 class="text-center pt-4 mb-3" style="color: #60a6e4">Welcome Leader [[${user.employees.fullName}]]</h2>
+                        <hr>
+                        <div class="space-document">Let's start to work with your Leader Role.</div>
+                        <ul>
+                            <li>Review and Approve Members CRF™ profiles, click <a class="btn btn-primary margin-button"
+                                                                                   href="/member-profiles"
+                                                                                   role="button">Members CRF™ profiles</a></li>
+                        </ul>
+                    </span>
+                    <span th:case="ROLE_STAFF">
+                        <h2 class="text-center pt-4 mb-3" style="color: #60a6e4">Welcome Staff [[${user.employees.fullName}]]</h2>
+                        <hr>
+                        <div class="space-document">Let's start to work with your Staff Role.</div>
+                        <ul>
+                            <li>Manage your CRF™ profiles, click <a class="btn btn-primary margin-button"
+                                                                    href="/my-profiles" role="button">Manage CRF™ profiles</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <div>
+                    <hr>
+                    <div class="space-document">CRF™ Account Information.</div>
+                    <ul class="mt-1">
+                        <li>Update CRF™ account <a class="btn btn-primary margin-button" href="/my-account/edit"
+                                                   role="button">Update Account</a> and register for using System™
+                            Services.
+                        </li>
+                        <li>Change account password, click <a class="btn btn-primary margin-button"
+                                                              href="/my-account/password" role="button">Change
+                            Password</a></li>
+                        <li>Change CRF™ Photo, click <a class="btn btn-primary margin-button" href="/my-account/photo"
+                                                        role="button">Change Photo</a></li>
+                        <li>Deactivate CRF™ account now <a class="btn btn-primary margin-button"
+                                                           href="/my-account/deactive" role="button">Deactivate
+                            Account</a> in case not continue to use System™ Services
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:insert="fragment/footer :: footer"></div>
+<span th:if="${message != null}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sms = /*[[${message}]]*/ 'default';
+        window.alert(sms);
+        /*]]>*/
+    </script>
+</span>
+</body>
+</html>
